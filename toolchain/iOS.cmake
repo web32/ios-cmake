@@ -82,6 +82,10 @@ set (CMAKE_SHARED_MODULE_LOADER_C_FLAG "-Wl,-bundle_loader,")
 set (CMAKE_SHARED_MODULE_LOADER_CXX_FLAG "-Wl,-bundle_loader,")
 set (CMAKE_FIND_LIBRARY_SUFFIXES ".dylib" ".so" ".a")
 
+#set correct product type
+set(CMAKE_MACOSX_BUNDLE YES)
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
+
 # hack: if a new cmake (which uses CMAKE_INSTALL_NAME_TOOL) runs on an old build tree
 # (where install_name_tool was hardcoded) and where CMAKE_INSTALL_NAME_TOOL isn't in the cache
 # and still cmake didn't fail in CMakeFindBinUtils.cmake (because it isn't rerun)
@@ -95,6 +99,13 @@ if (NOT DEFINED IOS_PLATFORM)
 	set (IOS_PLATFORM "OS")
 endif (NOT DEFINED IOS_PLATFORM)
 set (IOS_PLATFORM ${IOS_PLATFORM} CACHE STRING "Type of iOS Platform")
+
+# Setup building for arm64 or not
+if (NOT DEFINED BUILD_ARM64)
+    set (BUILD_ARM64 true)
+endif (NOT DEFINED BUILD_ARM64)
+set (BUILD_ARM64 ${BUILD_ARM64} CACHE STRING "Build arm64 arch or not")
+
 
 # Check the platform selection and setup for developer root
 if (${IOS_PLATFORM} STREQUAL "OS")
